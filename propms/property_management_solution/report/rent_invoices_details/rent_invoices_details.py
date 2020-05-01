@@ -9,7 +9,7 @@ from datetime import date, timedelta, datetime
 from collections import OrderedDict
 from frappe.utils import getdate, date_diff, month_diff, get_last_day, get_first_day, add_months, floor
 from erpnext import get_company_currency, get_default_company
-# from csf_tz.custom_api import print_out
+from csf_tz.custom_api import print_out
 
 
 def execute(filters=None):
@@ -62,6 +62,9 @@ def get_data(filters):
         if filters.get("foreign_currency") and get_company_currency(filters.company) != filters.foreign_currency:
             months_obj = calculate_monthly_ammount(invoice.foreign_total,invoice.from_date,invoice.to_date)
         else:
+            print_out("invoice total : "+str(invoice.foreign_total))
+            print_out("invoice.from_date  : "+str(invoice.from_date))
+            print_out("invoice.to_date  : "+str(invoice.to_date))
             months_obj = calculate_monthly_ammount(invoice.total,invoice.from_date,invoice.to_date)
         if months_obj:
             for key,value in months_obj.items():
